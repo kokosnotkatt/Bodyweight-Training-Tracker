@@ -1,0 +1,420 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: fadeInDown 0.6s ease;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Stats Bar */
+.stats-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.stat-card {
+    background: white;
+    padding: 15px 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    min-width: 120px;
+    animation: fadeIn 0.6s ease;
+}
+
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Day Selector */
+.day-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.day-btn {
+    padding: 12px 24px;
+    background: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.day-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.day-btn.active {
+    background: #4CAF50;
+    color: white;
+}
+
+.day-btn.rest {
+    background: #ff6b6b;
+    color: white;
+}
+
+.day-btn.completed::after {
+    content: '✓';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #4CAF50;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Workout Container */
+.workout-container {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: fadeIn 0.4s ease;
+}
+
+.workout-title {
+    font-size: 2em;
+    color: #667eea;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.rest-day {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 1.3em;
+}
+
+.rest-day-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+}
+
+/* Exercise */
+.exercise {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 5px solid #667eea;
+    transition: all 0.3s;
+}
+
+.exercise:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateX(5px);
+}
+
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.exercise-name {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #333;
+}
+
+.exercise-sets {
+    color: #666;
+    font-size: 1.1em;
+    margin-top: 5px;
+}
+
+.video-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.video-btn:hover {
+    background: #ff5252;
+    transform: scale(1.05);
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.checkbox {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    accent-color: #4CAF50;
+}
+
+.checkbox-label {
+    font-size: 1em;
+    color: #555;
+    cursor: pointer;
+    user-select: none;
+}
+
+.completed {
+    opacity: 0.6;
+    background: #e8f5e9;
+    border-left-color: #4CAF50;
+}
+
+.completed .exercise-name {
+    text-decoration: line-through;
+}
+
+/* Progress */
+.progress-container {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f0f0f0;
+    border-radius: 15px;
+}
+
+.progress-label {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 30px;
+    background: #e0e0e0;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+}
+
+/* Cardio Section */
+.cardio-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff3e0;
+    border-radius: 10px;
+    border-left: 4px solid #ff9800;
+}
+
+.cardio-title {
+    font-weight: 600;
+    color: #ff9800;
+    margin-bottom: 5px;
+}
+
+/* Video Modal */
+.video-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.video-content {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+}
+
+.close-btn {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-weight: bold;
+    transition: all 0.2s;
+    z-index: 1001;
+}
+
+.close-btn:hover {
+    transform: scale(1.2) rotate(90deg);
+    color: #ff6b6b;
+}
+
+iframe {
+    width: 100%;
+    height: 500px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* Reset Button */
+.reset-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: all 0.3s;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.reset-btn:hover {
+    background: #ff5252;
+    transform: scale(1.05);
+}
+
+/* Celebration */
+.celebration {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #4CAF50, #8BC34A);
+    border-radius: 15px;
+    color: white;
+    margin-top: 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+.celebration h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .workout-title {
+        font-size: 1.5em;
+    }
+
+    iframe {
+        height: 300px;
+    }
+
+    .exercise-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .close-btn {
+        top: -40px;
+        font-size: 35px;
+    }
+
+    .stat-card {
+        min-width: 100px;
+        padding: 12px 20px;
+    }
+
+    .stat-number {
+        font-size: 1.5em;
+    }
+}

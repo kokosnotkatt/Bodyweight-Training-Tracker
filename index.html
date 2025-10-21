@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bodyweight Training Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>💪 ตารางฝึก Bodyweight Training</h1>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-number" id="totalWorkouts">0</div>
+                <div class="stat-label">วันที่ฝึกแล้ว</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalExercises">0</div>
+                <div class="stat-label">ท่าที่ทำแล้ว</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="weekStreak">0</div>
+                <div class="stat-label">สัปดาห์ติดต่อกัน</div>
+            </div>
+        </div>
+
+        <div class="day-selector">
+            <button class="day-btn rest" data-day="monday">จันทร์ (พัก)</button>
+            <button class="day-btn" data-day="tuesday">อังคาร (A)</button>
+            <button class="day-btn" data-day="wednesday">พุธ (B)</button>
+            <button class="day-btn" data-day="thursday">พฤหัส (C)</button>
+            <button class="day-btn rest" data-day="friday">ศุกร์ (พัก)</button>
+            <button class="day-btn" data-day="saturday">เสาร์ (B)</button>
+            <button class="day-btn" data-day="sunday">อาทิตย์ (A)</button>
+        </div>
+
+        <div class="workout-container" id="workoutContent"></div>
+
+        <button class="reset-btn" onclick="resetProgress()">🔄 รีเซ็ตความคืบหน้า</button>
+    </div>
+
+    <div class="video-modal" id="videoModal">
+        <div class="video-content">
+            <button class="close-btn" onclick="closeVideo()">&times;</button>
+            <iframe id="videoFrame" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
