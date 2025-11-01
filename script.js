@@ -9,9 +9,9 @@ const workoutData = {
     title: "Day 1: PUSH (อก, ไหล่, หลังแขน)",
     exercises: [
       {
-        name: "Push-up (วิดพื้นปกติ หรือ วางเข่า)",
-        sets: "4 x AMRAP (ทำจนหมดแรง)",
-        video: "https://www.youtube.com/watch?v=TvxNkmjdhMM",
+        name: "Incline DB Press (ใช้เก้าอี้พิงกำแพง)",
+        sets: "4 x 15–20 (ใช้ 4.5kg, **แทน Push-up**)",
+        video: "https://www.youtube.com/watch?v=0xVqf_0Aemc",
       },
       {
         name: "DB Floor Press (นอนดันดัมเบล)",
@@ -117,9 +117,9 @@ const workoutData = {
         video: "https://www.youtube.com/watch?v=T2BYOgKcR-M",
       },
       {
-        name: "Push-up (วิดพื้นปกติ)",
-        sets: "3 x AMRAP",
-        video: "https://www.youtube.com/watch?v=TvxNkmjdhMM",
+        name: "DB Floor Press (นอนดันดัมเบล)",
+        sets: "3 x 15–20 (ใช้ 4.5kg, **แทน Push-up**)",
+        video: "https://www.youtube.com/watch?v=uUGDRwge4Fk",
       },
       {
         name: "DB Bicep Curl (ดัมเบล 4.5kg)",
