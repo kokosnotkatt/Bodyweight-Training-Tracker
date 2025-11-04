@@ -9,29 +9,29 @@ const workoutData = {
     title: "Day 1: PUSH (อก, ไหล่, หลังแขน)",
     exercises: [
       {
-        name: "Incline DB Press (ใช้เก้าอี้พิงกำแพง)",
-        sets: "4 x 15–20 (ใช้ 4.5kg, **แทน Push-up**)",
-        video: "https://www.youtube.com/watch?v=0xVqf_0Aemc",
-      },
-      {
         name: "DB Floor Press (นอนดันดัมเบล)",
-        sets: "4 x 15–20 (ใช้ 4.5kg)",
+        sets: "4 x 15-AMRAP (ใช้ 4.5kg)", 
         video: "https://www.youtube.com/watch?v=uUGDRwge4Fk",
       },
       {
-        name: "DB Shoulder Press (ยืน/นั่ง)",
-        sets: "4 x 15–20 (ใช้ 4.5kg)",
+        name: "DB Shoulder Press (ยืน/นั่งพื้น)",
+        sets: "4 x 15-AMRAP (ใช้ 4.5kg)",
         video: "https://www.youtube.com/watch?v=qEwKCR5-j_Q",
       },
       {
+        name: "DB Front Raise (ไหล่หน้า/อกบน)",
+        sets: "3 x 12-AMRAP (ใช้ 1-3kg)", 
+        video: "https://www.youtube.com/watch?v=E-8E0s9N25I",
+      },
+      {
         name: "DB Lateral Raise (ยกไหล่ข้าง)",
-        sets: "3 x 15–20 (ใช้ 1-3kg)",
+        sets: "3 x 15-AMRAP (ใช้ 1-3kg)", 
         video: "https://www.youtube.com/watch?v=3VcKaXpzqRo",
       },
       {
-        name: "Chair Dip (เล่นกับเก้าอี้)",
-        sets: "3 x AMRAP",
-        video: "https://www.youtube.com/watch?v=0326dy_-CzM",
+        name: "DB Overhead Tricep Extension (ถือ DB 1 อัน)",
+        sets: "4 x 15-AMRAP (ใช้ 4.5kg)", 
+        video: "https://www.youtube.com/watch?v=YbX7WdY6-0A",
       },
     ],
     cardio: "คาร์ดิโอ (เดินเร็ว/วิ่งเหยาะๆ) 20-30 นาที",
