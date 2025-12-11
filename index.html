@@ -18,6 +18,7 @@
             <p>ระบบติดตามการฝึกของคุณ • Push / Pull / Legs</p>
         </header>
 
+        <!-- Stats Cards -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">🏋️</div>
@@ -31,11 +32,12 @@
             </div>
             <div class="stat-card">
                 <div class="stat-icon">🔥</div>
-                <div class="stat-number" id="weekStreak">0</div>
-                <div class="stat-label">สัปดาห์ติดต่อกัน</div>
+                <div class="stat-number" id="currentStreak">0</div>
+                <div class="stat-label">วันติดต่อกัน</div>
             </div>
         </div>
 
+        <!-- Day Selector -->
         <div class="day-selector">
             <button class="day-btn rest" data-day="monday">
                 <span class="day-name">จันทร์</span>
@@ -67,40 +69,62 @@
             </button>
         </div>
 
-        <div class="workout-container" id="workoutContent"></div>
+        <!-- Workout Content -->
+        <div class="workout-container" id="workoutContent">
+            <div class="loading">กำลังโหลด...</div>
+        </div>
 
+        <!-- Footer Actions -->
         <div class="footer-actions">
-            <button class="action-btn primary" onclick="showTimer()">⏱️ เปิดนาฬิกาจับเวลา</button>
-            <button class="action-btn danger" onclick="resetProgress()">🔄 รีเซ็ตทั้งหมด</button>
+            <button class="action-btn primary" id="timerToggleBtn">
+                <span>⏱️</span> เปิดนาฬิกาจับเวลา
+            </button>
+            <button class="action-btn secondary" id="exportBtn">
+                <span>📊</span> ดูสถิติ
+            </button>
+            <button class="action-btn danger" id="resetBtn">
+                <span>🔄</span> รีเซ็ต
+            </button>
         </div>
     </div>
 
-    <!-- Timer Section -->
+    <!-- Timer Section (Fixed Position) -->
     <div class="timer-section hidden" id="timerSection">
-        <button class="timer-close" onclick="hideTimer()">×</button>
+        <button class="timer-close" id="timerCloseBtn">×</button>
         <div class="timer-display" id="timerDisplay">01:30</div>
         <div class="timer-controls">
-            <button class="timer-btn start" id="timerStartBtn" onclick="toggleTimer()">▶</button>
-            <button class="timer-btn reset" onclick="resetTimer()">↺</button>
+            <button class="timer-btn start" id="timerStartBtn">▶</button>
+            <button class="timer-btn reset" id="timerResetBtn">↺</button>
         </div>
         <div class="quick-timers">
-            <button class="quick-timer-btn" onclick="setTimer(60)">1:00</button>
-            <button class="quick-timer-btn" onclick="setTimer(90)">1:30</button>
-            <button class="quick-timer-btn" onclick="setTimer(120)">2:00</button>
+            <button class="quick-timer-btn" data-seconds="30">0:30</button>
+            <button class="quick-timer-btn" data-seconds="60">1:00</button>
+            <button class="quick-timer-btn active" data-seconds="90">1:30</button>
+            <button class="quick-timer-btn" data-seconds="120">2:00</button>
+            <button class="quick-timer-btn" data-seconds="180">3:00</button>
         </div>
     </div>
 
     <!-- Video Modal -->
     <div class="video-modal" id="videoModal">
         <div class="video-content">
-            <button class="close-btn" onclick="closeVideo()">×</button>
+            <button class="close-btn" id="videoCloseBtn">×</button>
             <iframe id="videoFrame" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- Stats Modal -->
+    <div class="stats-modal" id="statsModal">
+        <div class="stats-modal-content">
+            <button class="close-btn" id="statsCloseBtn">×</button>
+            <h2>📊 สถิติการฝึก</h2>
+            <div id="statsContent"></div>
         </div>
     </div>
 
     <!-- Toast -->
     <div class="toast" id="toast">
-        <span>✓</span>
+        <span class="toast-icon">✓</span>
         <span id="toastMessage">บันทึกแล้ว!</span>
     </div>
 

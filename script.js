@@ -1,4 +1,6 @@
+// ==========================================
 // Workout Data
+// ==========================================
 const workoutData = {
     monday: {
         title: "วันพัก",
@@ -79,37 +81,77 @@ const workoutData = {
     },
 };
 
-// Global Variables
+// Day mapping
+const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+const dayLabels = { 
+    monday: "จ.", tuesday: "อ.", wednesday: "พ.", 
+    thursday: "พฤ.", friday: "ศ.", saturday: "ส.", sunday: "อา." 
+};
+
+// ==========================================
+// Global State
+// ==========================================
 let currentDay = "";
 let completedExercises = {};
+let workoutHistory = []; // Track workout dates
 let timerInterval = null;
 let timerSeconds = 90;
 let timerRunning = false;
+let timerDefaultSeconds = 90;
 
-// Load Progress from LocalStorage
+// ==========================================
+// LocalStorage Functions
+// ==========================================
 function loadProgress() {
-    const saved = localStorage.getItem("workoutProgress");
-    if (saved) {
-        completedExercises = JSON.parse(saved);
+    try {
+        const saved = localStorage.getItem("workoutProgress");
+        if (saved) {
+            completedExercises = JSON.parse(saved);
+        }
+        
+        const history = localStorage.getItem("workoutHistory");
+        if (history) {
+            workoutHistory = JSON.parse(history);
+        }
+    } catch (e) {
+        console.error("Error loading progress:", e);
+        completedExercises = {};
+        workoutHistory = [];
     }
 }
 
-// Save Progress to LocalStorage
 function saveProgress() {
-    localStorage.setItem("workoutProgress", JSON.stringify(completedExercises));
+    try {
+        localStorage.setItem("workoutProgress", JSON.stringify(completedExercises));
+        localStorage.setItem("workoutHistory", JSON.stringify(workoutHistory));
+    } catch (e) {
+        console.error("Error saving progress:", e);
+    }
     updateStats();
     updateDayButtons();
 }
 
-// Show Toast Notification
-function showToast(message) {
+// ==========================================
+// Toast Notification
+// ==========================================
+function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
-    document.getElementById('toastMessage').textContent = message;
+    const toastMessage = document.getElementById('toastMessage');
+    const toastIcon = toast.querySelector('.toast-icon');
+    
+    toastMessage.textContent = message;
+    toastIcon.textContent = type === 'success' ? '✓' : 'ℹ️';
+    
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2500);
 }
 
-// Update Statistics
+// ==========================================
+// Statistics
+// ==========================================
 function updateStats() {
     let totalWorkouts = 0;
     let totalExercises = 0;
@@ -117,63 +159,156 @@ function updateStats() {
     Object.keys(completedExercises).forEach((day) => {
         if (completedExercises[day] && completedExercises[day].length > 0) {
             const workout = workoutData[day];
-            if (!workout.rest && completedExercises[day].length === workout.exercises.length) {
-                totalWorkouts++;
+            if (workout && !workout.rest && workout.exercises) {
+                if (completedExercises[day].length === workout.exercises.length) {
+                    totalWorkouts++;
+                }
+                totalExercises += completedExercises[day].length;
             }
-            totalExercises += completedExercises[day].length;
         }
     });
+
+    // Calculate current streak
+    const streak = calculateStreak();
 
     document.getElementById("totalWorkouts").textContent = totalWorkouts;
     document.getElementById("totalExercises").textContent = totalExercises;
-    document.getElementById("weekStreak").textContent = Math.floor(totalWorkouts / 5);
+    document.getElementById("currentStreak").textContent = streak;
 }
 
-// Update Day Buttons (Show completed checkmark and today indicator)
+function calculateStreak() {
+    // Simple streak calculation based on completed days this week
+    let streak = 0;
+    const workoutDays = ['tuesday', 'wednesday', 'thursday', 'saturday', 'sunday'];
+    
+    workoutDays.forEach(day => {
+        const workout = workoutData[day];
+        if (!workout.rest && completedExercises[day] && workout.exercises) {
+            if (completedExercises[day].length === workout.exercises.length) {
+                streak++;
+            }
+        }
+    });
+    
+    return streak;
+}
+
+function showStats() {
+    const modal = document.getElementById('statsModal');
+    const content = document.getElementById('statsContent');
+    
+    // Calculate stats
+    let totalWorkouts = 0;
+    let totalExercises = 0;
+    const dayStats = {};
+    
+    Object.keys(workoutData).forEach(day => {
+        const workout = workoutData[day];
+        if (!workout.rest) {
+            const completed = completedExercises[day] ? completedExercises[day].length : 0;
+            const total = workout.exercises.length;
+            dayStats[day] = { completed, total, percentage: Math.round((completed / total) * 100) };
+            
+            if (completed === total) totalWorkouts++;
+            totalExercises += completed;
+        }
+    });
+    
+    // Build stats HTML
+    let html = `
+        <div class="stats-row">
+            <span class="label">วันที่ฝึกครบ</span>
+            <span class="value">${totalWorkouts} วัน</span>
+        </div>
+        <div class="stats-row">
+            <span class="label">ท่าที่ทำทั้งหมด</span>
+            <span class="value">${totalExercises} ท่า</span>
+        </div>
+        <div class="stats-row">
+            <span class="label">Streak ปัจจุบัน</span>
+            <span class="value">${calculateStreak()} วัน</span>
+        </div>
+        
+        <div class="weekly-chart">
+            <h4>ความคืบหน้ารายวัน</h4>
+            <div class="chart-bars">
+    `;
+    
+    const chartDays = ['tuesday', 'wednesday', 'thursday', 'saturday', 'sunday'];
+    chartDays.forEach(day => {
+        const stat = dayStats[day] || { percentage: 0 };
+        const height = Math.max(10, stat.percentage);
+        const isCompleted = stat.percentage === 100;
+        
+        html += `
+            <div class="chart-bar ${isCompleted ? 'completed' : ''}" style="height: ${height}%">
+                <span class="bar-label">${dayLabels[day]}</span>
+            </div>
+        `;
+    });
+    
+    html += `
+            </div>
+        </div>
+    `;
+    
+    content.innerHTML = html;
+    modal.classList.add('show');
+}
+
+// ==========================================
+// Day Buttons
+// ==========================================
 function updateDayButtons() {
     const today = new Date().getDay();
-    const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-    const todayKey = days[today];
+    const todayKey = dayNames[today];
 
     Object.keys(workoutData).forEach((day) => {
         const btn = document.querySelector(`[data-day="${day}"]`);
+        if (!btn) return;
+        
         const workout = workoutData[day];
 
         // Mark today
-        if (day === todayKey) {
-            btn.classList.add("today");
-        } else {
-            btn.classList.remove("today");
-        }
+        btn.classList.toggle("today", day === todayKey);
 
         // Mark completed
-        if (!workout.rest && completedExercises[day] && completedExercises[day].length === workout.exercises.length) {
-            btn.classList.add("completed");
-        } else {
-            btn.classList.remove("completed");
-        }
+        const isCompleted = !workout.rest && 
+            completedExercises[day] && 
+            workout.exercises &&
+            completedExercises[day].length === workout.exercises.length;
+        btn.classList.toggle("completed", isCompleted);
     });
 }
 
+// ==========================================
 // Render Workout
+// ==========================================
 function renderWorkout(day) {
     currentDay = day;
     const workout = workoutData[day];
     const content = document.getElementById("workoutContent");
+
+    if (!workout) {
+        content.innerHTML = '<div class="loading">ไม่พบข้อมูล</div>';
+        return;
+    }
 
     // Rest Day
     if (workout.rest) {
         content.innerHTML = `
             <div class="workout-title">
                 <div class="title-icon">${workout.icon}</div>
-                <span>${workout.title}</span>
+                <div class="title-text">
+                    <span>${workout.title}</span>
+                </div>
             </div>
             <div class="rest-day">
                 <div class="rest-day-icon">${workout.icon}</div>
                 <h3>${workout.message}</h3>
                 <p>วันนี้เป็นวันพักฟื้นร่างกาย ให้กล้ามเนื้อได้ซ่อมแซมตัวเอง</p>
                 <div class="rest-tips">
-                    <h4>💡 สิ่งที่ควรทำในวันพัก</h4>
+                    <h4>สิ่งที่ควรทำในวันพัก</h4>
                     <ul>
                         <li>ยืดเหยียดกล้ามเนื้อเบาๆ 10-15 นาที</li>
                         <li>ดื่มน้ำให้เพียงพอ 2-3 ลิตร</li>
@@ -195,12 +330,16 @@ function renderWorkout(day) {
     const total = workout.exercises.length;
     const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
 
+    // Get day number for workout days
+    const workoutDayIndex = ['tuesday', 'wednesday', 'thursday', 'saturday', 'sunday'].indexOf(day);
+    const dayNumber = workoutDayIndex >= 0 ? workoutDayIndex + 1 : '';
+
     let html = `
         <div class="workout-title">
             <div class="title-icon">${workout.icon}</div>
-            <div>
-                <span>Day ${['tuesday', 'wednesday', 'thursday', 'saturday', 'sunday'].indexOf(day) + 1}: ${workout.title}</span>
-                <small style="display: block; color: var(--text-secondary); font-size: 0.6em; font-weight: 400;">${workout.subtitle}</small>
+            <div class="title-text">
+                <span>Day ${dayNumber}: ${workout.title}</span>
+                <small>${workout.subtitle}</small>
             </div>
         </div>
     `;
@@ -209,23 +348,23 @@ function renderWorkout(day) {
     workout.exercises.forEach((exercise, index) => {
         const isCompleted = completedExercises[day].includes(index);
         html += `
-            <div class="exercise ${isCompleted ? "completed" : ""}" id="exercise-${index}">
+            <div class="exercise ${isCompleted ? "completed" : ""}" data-index="${index}">
                 <div class="exercise-header">
                     <div class="exercise-info">
                         <span class="exercise-number">${index + 1}</span>
                         <span class="exercise-name">${exercise.name}</span>
                         <div class="exercise-sets">${exercise.sets} • ${exercise.weight}</div>
                     </div>
-                    <button class="video-btn" onclick="playVideo('${exercise.video}')">
+                    <button class="video-btn" data-video="${exercise.video}">
                         ▶ ดูวิดีโอ
                     </button>
                 </div>
                 <div class="exercise-footer">
-                    <label class="checkbox-container" onclick="toggleExercise(${index})">
-                        <input type="checkbox" ${isCompleted ? "checked" : ""}>
+                    <div class="checkbox-wrapper ${isCompleted ? 'checked' : ''}" data-index="${index}">
                         <div class="custom-checkbox">✓</div>
-                        <span class="checkbox-label">เสร็จแล้ว</span>
-                    </label>
+                        <span class="checkbox-label">${isCompleted ? 'เสร็จแล้ว' : 'ทำเสร็จแล้ว?'}</span>
+                    </div>
+                    <button class="start-timer-btn" data-seconds="90">⏱️ พัก 1:30</button>
                 </div>
             </div>
         `;
@@ -269,31 +408,91 @@ function renderWorkout(day) {
     }
 
     content.innerHTML = html;
+    
+    // Attach event listeners after rendering
+    attachExerciseListeners();
 }
 
-// Toggle Exercise Completion
+// ==========================================
+// Exercise Event Listeners
+// ==========================================
+function attachExerciseListeners() {
+    // Checkbox click handlers
+    document.querySelectorAll('.checkbox-wrapper').forEach(wrapper => {
+        wrapper.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const index = parseInt(this.dataset.index);
+            toggleExercise(index);
+        });
+    });
+    
+    // Video button handlers
+    document.querySelectorAll('.video-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const videoUrl = this.dataset.video;
+            playVideo(videoUrl);
+        });
+    });
+    
+    // Start timer button handlers
+    document.querySelectorAll('.start-timer-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const seconds = parseInt(this.dataset.seconds) || 90;
+            showTimerWithSeconds(seconds);
+        });
+    });
+}
+
+// ==========================================
+// Toggle Exercise
+// ==========================================
 function toggleExercise(index) {
     if (!completedExercises[currentDay]) {
         completedExercises[currentDay] = [];
     }
 
     const exerciseIndex = completedExercises[currentDay].indexOf(index);
+    
     if (exerciseIndex > -1) {
+        // Remove from completed
         completedExercises[currentDay].splice(exerciseIndex, 1);
-        showToast("ยกเลิกการทำเสร็จ");
+        showToast("ยกเลิกแล้ว", 'info');
     } else {
+        // Add to completed
         completedExercises[currentDay].push(index);
         showToast("บันทึกแล้ว! 💪");
+        
+        // Check if all completed
+        const workout = workoutData[currentDay];
+        if (workout && workout.exercises && 
+            completedExercises[currentDay].length === workout.exercises.length) {
+            // All exercises completed!
+            setTimeout(() => {
+                showToast("🎉 ครบทุกท่าแล้ว! เยี่ยมมาก!");
+            }, 500);
+        }
     }
 
     saveProgress();
     renderWorkout(currentDay);
 }
 
-// Play Video
+// ==========================================
+// Video Functions
+// ==========================================
 function playVideo(videoUrl) {
     const modal = document.getElementById("videoModal");
     const frame = document.getElementById("videoFrame");
+
+    if (!videoUrl) return;
 
     let videoId = "";
     if (videoUrl.includes("youtube.com/watch?v=")) {
@@ -304,89 +503,124 @@ function playVideo(videoUrl) {
         videoId = videoUrl.split("embed/")[1].split("?")[0];
     }
 
-    frame.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-    modal.style.display = "flex";
+    if (videoId) {
+        frame.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+        modal.classList.add('show');
+    }
 }
 
-// Close Video
 function closeVideo() {
     const modal = document.getElementById("videoModal");
     const frame = document.getElementById("videoFrame");
     frame.src = "";
-    modal.style.display = "none";
+    modal.classList.remove('show');
 }
 
+// ==========================================
 // Reset Progress
+// ==========================================
 function resetProgress() {
-    if (confirm("คุณแน่ใจหรือว่าต้องการรีเซ็ตความคืบหน้าทั้งหมด?\n\nข้อมูลทั้งหมดจะถูกลบ!")) {
+    if (confirm("คุณแน่ใจหรือว่าต้องการรีเซ็ตความคืบหน้าทั้งหมด?\n\nข้อมูลทั้งหมดจะถูกลบและไม่สามารถกู้คืนได้!")) {
         completedExercises = {};
+        workoutHistory = [];
         saveProgress();
         renderWorkout(currentDay);
-        showToast("รีเซ็ตเรียบร้อย");
+        showToast("รีเซ็ตเรียบร้อยแล้ว");
     }
 }
 
+// ==========================================
 // Timer Functions
+// ==========================================
 function showTimer() {
     document.getElementById('timerSection').classList.remove('hidden');
 }
 
 function hideTimer() {
     document.getElementById('timerSection').classList.add('hidden');
-    if (timerRunning) {
-        clearInterval(timerInterval);
-        timerRunning = false;
-    }
+    stopTimer();
+}
+
+function showTimerWithSeconds(seconds) {
+    timerDefaultSeconds = seconds;
+    timerSeconds = seconds;
+    updateTimerDisplay();
+    
+    // Update active quick timer button
+    document.querySelectorAll('.quick-timer-btn').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.seconds) === seconds);
+    });
+    
+    showTimer();
 }
 
 function toggleTimer() {
     const btn = document.getElementById('timerStartBtn');
+    
     if (timerRunning) {
-        clearInterval(timerInterval);
-        timerRunning = false;
+        // Pause
+        stopTimer();
         btn.textContent = '▶';
         btn.classList.remove('pause');
         btn.classList.add('start');
     } else {
+        // Start
         timerRunning = true;
         btn.textContent = '⏸';
         btn.classList.remove('start');
         btn.classList.add('pause');
+        
         timerInterval = setInterval(() => {
             timerSeconds--;
             updateTimerDisplay();
+            
             if (timerSeconds <= 0) {
-                clearInterval(timerInterval);
-                timerRunning = false;
+                stopTimer();
+                playAlarm();
                 btn.textContent = '▶';
                 btn.classList.remove('pause');
                 btn.classList.add('start');
-                playAlarm();
+                timerSeconds = timerDefaultSeconds;
+                updateTimerDisplay();
             }
         }, 1000);
     }
 }
 
-function resetTimer() {
-    clearInterval(timerInterval);
+function stopTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
     timerRunning = false;
-    timerSeconds = 90;
+}
+
+function resetTimer() {
+    stopTimer();
+    timerSeconds = timerDefaultSeconds;
     updateTimerDisplay();
+    
     const btn = document.getElementById('timerStartBtn');
     btn.textContent = '▶';
     btn.classList.remove('pause');
     btn.classList.add('start');
 }
 
-function setTimer(seconds) {
-    clearInterval(timerInterval);
-    timerRunning = false;
+function setTimerSeconds(seconds) {
+    stopTimer();
+    timerDefaultSeconds = seconds;
     timerSeconds = seconds;
     updateTimerDisplay();
+    
     const btn = document.getElementById('timerStartBtn');
     btn.textContent = '▶';
     btn.classList.remove('pause');
     btn.classList.add('start');
+    
+    // Update active button
+    document.querySelectorAll('.quick-timer-btn').forEach(b => {
+        b.classList.toggle('active', parseInt(b.dataset.seconds) === seconds);
+    });
 }
 
 function updateTimerDisplay() {
@@ -395,44 +629,158 @@ function updateTimerDisplay() {
     const seconds = timerSeconds % 60;
     display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     
-    if (timerSeconds <= 10 && timerSeconds > 0) {
-        display.classList.add('warning');
-    } else {
-        display.classList.remove('warning');
-    }
+    // Warning state when low
+    display.classList.toggle('warning', timerSeconds <= 5 && timerSeconds > 0);
 }
 
 function playAlarm() {
     showToast("⏰ หมดเวลาพัก! เริ่มเซ็ตต่อไปได้เลย");
-    // Play sound if available
+    
+    // Try to play sound
     try {
-        const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2teleRkALIrZ7qt+HAAqj9vtq3ocACuQ2+2releJkoxkXlZfjL2xkWA6OWSQyNa8cBwKKYzY6atyGgAsj9vsqnwbACuQ3O2rexsAK5Dc7at7GwArkNzuqnwbACuQ3O2rexsAK5Dc7qt7GwArkNzuq3sbACuQ3O6rexsAK5Dc7qt8GwArj9zuq3wbACuP3O+rfBsAK4/c76t8GwArj9zvq3wbACuP3O+rfBsAK4/c76t8GwArj9zvq3wbACuP3O+rfBsAK4/c76t8GwArkNzvq3wbACuQ3O+rfBsAK5Dc76t8GwArkNzuq3wbACuQ3O6rexsAK5Dc7qt7GwArkNzuq3sbACuQ3O6rex');
-        audio.play();
-    } catch(e) {}
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+        gainNode.gain.value = 0.3;
+        
+        oscillator.start();
+        
+        setTimeout(() => {
+            oscillator.stop();
+        }, 200);
+        
+        // Beep twice more
+        setTimeout(() => {
+            const osc2 = audioContext.createOscillator();
+            osc2.connect(gainNode);
+            osc2.frequency.value = 800;
+            osc2.type = 'sine';
+            osc2.start();
+            setTimeout(() => osc2.stop(), 200);
+        }, 300);
+        
+        setTimeout(() => {
+            const osc3 = audioContext.createOscillator();
+            osc3.connect(gainNode);
+            osc3.frequency.value = 1000;
+            osc3.type = 'sine';
+            osc3.start();
+            setTimeout(() => osc3.stop(), 300);
+        }, 600);
+        
+    } catch(e) {
+        console.log("Audio not supported");
+    }
+    
+    // Vibrate if supported
+    if ('vibrate' in navigator) {
+        navigator.vibrate([200, 100, 200, 100, 300]);
+    }
 }
 
-// Event Listeners
-document.getElementById("videoModal").addEventListener("click", function(e) {
-    if (e.target === this) {
-        closeVideo();
-    }
-});
-
-document.querySelectorAll(".day-btn").forEach((btn) => {
-    btn.addEventListener("click", function() {
-        document.querySelectorAll(".day-btn").forEach((b) => b.classList.remove("active"));
-        this.classList.add("active");
-        renderWorkout(this.dataset.day);
+// ==========================================
+// Event Listeners Setup
+// ==========================================
+function setupEventListeners() {
+    // Day selector buttons
+    document.querySelectorAll(".day-btn").forEach((btn) => {
+        btn.addEventListener("click", function() {
+            document.querySelectorAll(".day-btn").forEach((b) => b.classList.remove("active"));
+            this.classList.add("active");
+            renderWorkout(this.dataset.day);
+        });
     });
-});
+    
+    // Timer toggle button
+    document.getElementById('timerToggleBtn').addEventListener('click', showTimer);
+    
+    // Timer close button
+    document.getElementById('timerCloseBtn').addEventListener('click', hideTimer);
+    
+    // Timer start/pause button
+    document.getElementById('timerStartBtn').addEventListener('click', toggleTimer);
+    
+    // Timer reset button
+    document.getElementById('timerResetBtn').addEventListener('click', resetTimer);
+    
+    // Quick timer buttons
+    document.querySelectorAll('.quick-timer-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const seconds = parseInt(this.dataset.seconds);
+            setTimerSeconds(seconds);
+        });
+    });
+    
+    // Export/Stats button
+    document.getElementById('exportBtn').addEventListener('click', showStats);
+    
+    // Reset button
+    document.getElementById('resetBtn').addEventListener('click', resetProgress);
+    
+    // Video modal close
+    document.getElementById('videoCloseBtn').addEventListener('click', closeVideo);
+    document.getElementById('videoModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeVideo();
+        }
+    });
+    
+    // Stats modal close
+    document.getElementById('statsCloseBtn').addEventListener('click', function() {
+        document.getElementById('statsModal').classList.remove('show');
+    });
+    document.getElementById('statsModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('show');
+        }
+    });
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeVideo();
+            document.getElementById('statsModal').classList.remove('show');
+        }
+    });
+}
 
-// Initialize
-loadProgress();
-updateStats();
-updateDayButtons();
+// ==========================================
+// Initialize App
+// ==========================================
+function init() {
+    // Load saved progress
+    loadProgress();
+    
+    // Setup all event listeners
+    setupEventListeners();
+    
+    // Update stats display
+    updateStats();
+    
+    // Update day button states
+    updateDayButtons();
+    
+    // Auto-select today's workout
+    const today = new Date().getDay();
+    const todayKey = dayNames[today];
+    const todayBtn = document.querySelector(`[data-day="${todayKey}"]`);
+    
+    if (todayBtn) {
+        todayBtn.click();
+    }
+    
+    console.log("Workout Tracker initialized!");
+}
 
-// Auto-select today
-const today = new Date().getDay();
-const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-const todayKey = days[today];
-document.querySelector(`[data-day="${todayKey}"]`).click();
+// Start the app when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
