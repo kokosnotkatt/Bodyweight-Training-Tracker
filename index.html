@@ -3,48 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bodyweight Training Tracker</title>
+    <title>💪 Workout Tracker Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="bg-gradient"></div>
+    
     <div class="container">
-        <h1>💪 ตารางฝึก Bodyweight Training</h1>
+        <header class="header">
+            <h1>💪 Workout Tracker Pro</h1>
+            <p>ระบบติดตามการฝึกของคุณ • Push / Pull / Legs</p>
+        </header>
 
-        <div class="stats-bar">
+        <div class="stats-grid">
             <div class="stat-card">
+                <div class="stat-icon">🏋️</div>
                 <div class="stat-number" id="totalWorkouts">0</div>
-                <div class="stat-label">วันที่ฝึกแล้ว</div>
+                <div class="stat-label">วันที่ฝึกครบ</div>
             </div>
             <div class="stat-card">
+                <div class="stat-icon">🎯</div>
                 <div class="stat-number" id="totalExercises">0</div>
                 <div class="stat-label">ท่าที่ทำแล้ว</div>
             </div>
             <div class="stat-card">
+                <div class="stat-icon">🔥</div>
                 <div class="stat-number" id="weekStreak">0</div>
                 <div class="stat-label">สัปดาห์ติดต่อกัน</div>
             </div>
         </div>
 
         <div class="day-selector">
-            <button class="day-btn rest" data-day="monday">จันทร์ (พัก)</button>
-            <button class="day-btn" data-day="tuesday">อังคาร (A)</button>
-            <button class="day-btn" data-day="wednesday">พุธ (B)</button>
-            <button class="day-btn" data-day="thursday">พฤหัส (C)</button>
-            <button class="day-btn rest" data-day="friday">ศุกร์ (พัก)</button>
-            <button class="day-btn" data-day="saturday">เสาร์ (B)</button>
-            <button class="day-btn" data-day="sunday">อาทิตย์ (A)</button>
+            <button class="day-btn rest" data-day="monday">
+                <span class="day-name">จันทร์</span>
+                <span class="day-type">พัก</span>
+            </button>
+            <button class="day-btn" data-day="tuesday">
+                <span class="day-name">อังคาร</span>
+                <span class="day-type">PUSH</span>
+            </button>
+            <button class="day-btn" data-day="wednesday">
+                <span class="day-name">พุธ</span>
+                <span class="day-type">PULL</span>
+            </button>
+            <button class="day-btn" data-day="thursday">
+                <span class="day-name">พฤหัส</span>
+                <span class="day-type">LEGS</span>
+            </button>
+            <button class="day-btn rest" data-day="friday">
+                <span class="day-name">ศุกร์</span>
+                <span class="day-type">พัก</span>
+            </button>
+            <button class="day-btn" data-day="saturday">
+                <span class="day-name">เสาร์</span>
+                <span class="day-type">UPPER</span>
+            </button>
+            <button class="day-btn" data-day="sunday">
+                <span class="day-name">อาทิตย์</span>
+                <span class="day-type">LOWER</span>
+            </button>
         </div>
 
         <div class="workout-container" id="workoutContent"></div>
 
-        <button class="reset-btn" onclick="resetProgress()">🔄 รีเซ็ตความคืบหน้า</button>
+        <div class="footer-actions">
+            <button class="action-btn primary" onclick="showTimer()">⏱️ เปิดนาฬิกาจับเวลา</button>
+            <button class="action-btn danger" onclick="resetProgress()">🔄 รีเซ็ตทั้งหมด</button>
+        </div>
     </div>
 
+    <!-- Timer Section -->
+    <div class="timer-section hidden" id="timerSection">
+        <button class="timer-close" onclick="hideTimer()">×</button>
+        <div class="timer-display" id="timerDisplay">01:30</div>
+        <div class="timer-controls">
+            <button class="timer-btn start" id="timerStartBtn" onclick="toggleTimer()">▶</button>
+            <button class="timer-btn reset" onclick="resetTimer()">↺</button>
+        </div>
+        <div class="quick-timers">
+            <button class="quick-timer-btn" onclick="setTimer(60)">1:00</button>
+            <button class="quick-timer-btn" onclick="setTimer(90)">1:30</button>
+            <button class="quick-timer-btn" onclick="setTimer(120)">2:00</button>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
     <div class="video-modal" id="videoModal">
         <div class="video-content">
-            <button class="close-btn" onclick="closeVideo()">&times;</button>
+            <button class="close-btn" onclick="closeVideo()">×</button>
             <iframe id="videoFrame" src="" allowfullscreen></iframe>
         </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span>✓</span>
+        <span id="toastMessage">บันทึกแล้ว!</span>
     </div>
 
     <script src="script.js"></script>
