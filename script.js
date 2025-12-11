@@ -10,27 +10,27 @@ const workoutData = {
     exercises: [
       {
         name: "DB Floor Press (นอนดันดัมเบล)",
-        sets: "4 x 15-AMRAP (ใช้ 4.5kg)", 
+        sets: "4 x 12-15 (ใช้ 8kg ถ้าไหว หรือ 4.5kg)",
         video: "https://www.youtube.com/watch?v=uUGDRwge4Fk",
       },
       {
         name: "DB Shoulder Press (ยืน/นั่งพื้น)",
-        sets: "4 x 15-AMRAP (ใช้ 4.5kg)",
+        sets: "4 x 12-15 (ใช้ 4.5kg - 8kg)",
         video: "https://www.youtube.com/watch?v=qEwKCR5-j_Q",
       },
       {
         name: "DB Front Raise (ไหล่หน้า/อกบน)",
-        sets: "3 x 12-AMRAP (ใช้ 1-3kg)", 
+        sets: "3 x 12-15 (ใช้ 1-3kg)",
         video: "https://www.youtube.com/watch?v=E-8E0s9N25I",
       },
       {
         name: "DB Lateral Raise (ยกไหล่ข้าง)",
-        sets: "3 x 15-AMRAP (ใช้ 1-3kg)", 
+        sets: "3 x 15-20 (ใช้ 1-3kg)",
         video: "https://www.youtube.com/watch?v=3VcKaXpzqRo",
       },
       {
-        name: "DB Overhead Tricep Extension (ถือ DB 1 อัน)",
-        sets: "4 x 15-AMRAP (ใช้ 4.5kg)", 
+        name: "DB Overhead Tricep Extension",
+        sets: "4 x 12-15 (ถือ DB 8kg 1 อัน)",
         video: "https://www.youtube.com/watch?v=YbX7WdY6-0A",
       },
     ],
@@ -40,59 +40,59 @@ const workoutData = {
     title: "Day 2: PULL (หลัง, หน้าแขน)",
     exercises: [
       {
-        name: "Barbell Bent Over Row (บาร์เบล 9kg)",
-        sets: "4 x 12–15 (ท่านี้สำคัญมาก)",
+        name: "Barbell Bent Over Row (บาร์เบล)",
+        sets: "4 x 10–12 (ใช้บาร์เบล 23kg)",
         video: "https://www.youtube.com/watch?v=T2BYOgKcR-M",
       },
       {
-        name: "DB Bent Over Row (ดัมเบล 4.5kg)",
-        sets: "3 x 15–20/ข้าง (เน้นบีบสะบัก)",
+        name: "DB Bent Over Row (ดัมเบล)",
+        sets: "3 x 12–15/ข้าง (ใช้ DB 8kg)",
         video: "https://www.youtube.com/watch?v=pYcpY20QaE8",
       },
       {
         name: "Superman (บริหารหลังล่าง)",
-        sets: "3 x 20",
+        sets: "3 x 15-20",
         video: "https://www.youtube.com/watch?v=z6PJMT2y8GQ",
       },
       {
-        name: "DB Bicep Curl (ดัมเบล 4.5kg)",
-        sets: "4 x 15–20/ข้าง (ช้าๆ โฟกัส)",
+        name: "DB Bicep Curl (หน้าแขน)",
+        sets: "4 x 10–12/ข้าง (ใช้ DB 8kg)",
         video: "https://www.youtube.com/watch?v=ykJmrZ5v0Oo",
       },
       {
-        name: "DB Hammer Curl (ดัมเบล 4.5kg)",
-        sets: "3 x 15–20/ข้าง",
+        name: "DB Hammer Curl (หน้าแขนด้านข้าง)",
+        sets: "3 x 12–15/ข้าง (ใช้ DB 8kg)",
         video: "https://www.youtube.com/watch?v=zC3nLHv2hrQ",
       },
     ],
     cardio: "คาร์ดิโอ (เดินเร็ว/วิ่งเหยาะๆ) 20-30 นาที",
   },
   thursday: {
-    title: "Day 3: LEGS (ขา, ท้อง) - (แบบไม่หนัก)",
+    title: "Day 3: LEGS (ขา, สะโพก) - เน้นความแข็งแรง",
     exercises: [
       {
-        name: "Goblet Squat (ถือดัมเบล 4.5kg)",
-        sets: "3 x 10–12 (แทน AMRAP)",
+        name: "Goblet Squat (สควอทถือดัมเบล)",
+        sets: "4 x 10–12 (ถือ DB 8kg ไว้ที่อก)",
         video: "https://www.youtube.com/watch?v=X-i3f-9-I0I",
       },
       {
-        name: "Bodyweight Lunge (เดินย่อเข่า)",
-        sets: "3 x 10–12/ข้าง (ไม่ต้องถือ DB)",
+        name: "DB Walking Lunge (เดินย่อเข่า)",
+        sets: "3 x 12/ข้าง (ถือ DB 8kg สองข้าง หรือข้างเดียว)",
         video: "https://www.youtube.com/watch?v=QOVaHwm-Q6U",
       },
       {
-        name: "Barbell Glute Bridge (บาร์เบล 9kg)",
-        sets: "4 x 15–20 (วางบาร์บนสะโพก)",
+        name: "Barbell Glute Bridge (สะพานโค้ง)",
+        sets: "4 x 12–15 (ใช้บาร์เบล 23kg วางบนสะโพก)",
         video: "https://www.youtube.com/watch?v=Wv-0qcGHRbQ",
       },
       {
-        name: "DB Calf Raise (เขย่งน่อง ถือ DB)",
-        sets: "4 x 20–25 (ใช้ 4.5kg)",
+        name: "DB Calf Raise (เขย่งน่อง)",
+        sets: "4 x 15–20 (ถือ DB 8kg สองข้าง)",
         video: "https://www.youtube.com/watch?v=YMmgqO8Jo-k",
       },
       {
-        name: "Plank",
-        sets: "3 x 60 วินาที (หรือจนหมดแรง)",
+        name: "Plank (แพลงก์)",
+        sets: "3 x 45-60 วินาที",
         video: "https://www.youtube.com/watch?v=TvxNkmjdhMM",
       },
     ],
@@ -107,66 +107,65 @@ const workoutData = {
     title: "Day 4: UPPER BODY (ร่างกายส่วนบน)",
     exercises: [
       {
-        name: "Barbell Overhead Press (บาร์เบล 9kg)",
-        sets: "4 x 10–12 (ยืน/นั่ง)",
+        name: "Barbell Overhead Press (ดันข้อไหล่)",
+        sets: "4 x 8–10 (ใช้บาร์เบล 23kg)",
         video: "https://www.youtube.com/watch?v=YJ-iVdb-02s",
       },
       {
-        name: "Barbell Bent Over Row (บาร์เบล 9kg)",
-        sets: "4 x 12–15 (ซ้ำท่าสำคัญ)",
+        name: "Barbell Bent Over Row (ดึงข้อศอก)",
+        sets: "4 x 10–12 (ใช้บาร์เบล 23kg)",
         video: "https://www.youtube.com/watch?v=T2BYOgKcR-M",
       },
       {
-        name: "DB Floor Press (นอนดันดัมเบล)",
-        sets: "3 x 15–20 (ใช้ 4.5kg, **แทน Push-up**)",
+        name: "DB Floor Press (อก)",
+        sets: "3 x 12–15 (ใช้ DB 8kg)",
         video: "https://www.youtube.com/watch?v=uUGDRwge4Fk",
       },
       {
-        name: "DB Bicep Curl (ดัมเบล 4.5kg)",
-        sets: "3 x 15–20/ข้าง",
+        name: "DB Bicep Curl (หน้าแขน)",
+        sets: "3 x 10–12 (ใช้ DB 8kg)",
         video: "https://www.youtube.com/watch?v=ykJmrZ5v0Oo",
       },
       {
-        name: "DB Overhead Tricep Extension (ถือ DB 1 อัน)",
-        sets: "3 x 15–20 (ใช้ 4.5kg)",
+        name: "DB Overhead Extension (หลังแขน)",
+        sets: "3 x 12–15 (ถือ DB 8kg 1 อัน)",
         video: "https://www.youtube.com/watch?v=YbX7WdY6-0A",
       },
     ],
     cardio: "คาร์ดิโอ (เดินเร็ว/วิ่งเหยาะๆ) 20-30 นาที",
   },
   sunday: {
-    title: "Day 5: LOWER BODY (ขา, ท้อง) - (แบบไม่หนัก)",
+    title: "Day 5: LOWER BODY (ขาหลัง, ก้น) - เน้นโซนหลัง",
     exercises: [
       {
-        name: "Barbell RDL (บาร์เบล 9kg)",
-        sets: "4 x 12–15 (เน้น hamstring)",
+        name: "Barbell RDL (เดดลิฟท์ขาตึง)",
+        sets: "4 x 10–12 (ใช้บาร์เบล 23kg - โฟกัสหลังขา)",
         video: "https://www.youtube.com/watch?v=Gg3nMYd2S4E",
       },
       {
-        name: "Bulgarian Split Squat (Bodyweight)",
-        sets: "3 x 10–12/ข้าง",
+        name: "Bulgarian Split Squat (สควอทขาเดียว)",
+        sets: "3 x 8–10/ข้าง (ถือ DB 8kg หรือมือเปล่า)",
         video: "https://www.youtube.com/watch?v=2C-uNgKwPLE",
       },
       {
-        name: "Wall Sit (นั่งพิงกำแพง)",
-        sets: "3 x 60 วินาที (หรือจนหมดแรง)",
-        video: "https://www.youtube.com/watch?v=-cdph8hv0O0",
+        name: "Barbell Hip Thrust (สะพานโค้งบาร์เบล)",
+        sets: "3 x 12-15 (วางบาร์เบล 23kg บนสะโพก)",
+        video: "https://www.youtube.com/watch?v=SEdqd1n0cvg",
       },
       {
-        name: "Lying Leg Raise (นอนยกขา)",
-        sets: "3 x AMRAP",
-        video: "https://www.youtube.com/watch?v=Wp4BlxcAcHI",
+        name: "Weighted Sit-up (ซิทอัพกอดน้ำหนัก)",
+        sets: "3 x 12-15 (กอดแผ่นน้ำหนัก/DB ที่อก)",
+        video: "https://www.youtube.com/watch?v=jDwoBqPH0jk",
       },
       {
         name: "Side Plank (แพลงก์ข้าง)",
-        sets: "3 x 45 วินาที/ข้าง",
+        sets: "3 x 30-45 วินาที/ข้าง",
         video: "https://www.youtube.com/watch?v=K2VljzCC16g",
       },
     ],
     cardio: "คาร์ดิโอ (เดินเร็ว/วิ่งเหยาะๆ) 20-30 นาที",
   },
 };
-
 // Global Variables
 let currentDay = "";
 let completedExercises = {};
