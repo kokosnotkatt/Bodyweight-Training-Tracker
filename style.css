@@ -311,7 +311,15 @@ body {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between; /* Changed for edit btn */
     gap: 12px;
+}
+
+.workout-title-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
 }
 
 .workout-title .title-icon {
@@ -340,6 +348,88 @@ body {
     font-size: 0.55em;
     font-weight: 400;
     margin-top: 2px;
+}
+
+/* Edit Mode Styles */
+.edit-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.edit-btn:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-label {
+    font-size: 0.8em;
+    color: var(--text-muted);
+}
+
+.form-input, .form-select {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'Kanit', sans-serif;
+    width: 100%;
+}
+
+.form-input:focus {
+    border-color: var(--accent-primary);
+    outline: none;
+}
+
+.edit-exercise-item {
+    background: var(--bg-secondary);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.remove-exercise-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 107, 107, 0.2);
+    color: var(--accent-warning);
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.edit-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: flex-end;
 }
 
 /* Rest Day */
@@ -933,7 +1023,7 @@ iframe {
     background: #000;
 }
 
-/* Stats Modal */
+/* Stats & Swap Modal */
 .stats-modal {
     display: none;
     position: fixed;
@@ -966,8 +1056,54 @@ iframe {
 
 .stats-modal-content h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     color: var(--accent-primary);
+}
+
+.modal-desc {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-size: 0.9em;
+}
+
+/* Swap Grid */
+.swap-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.swap-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.swap-item:hover {
+    background: var(--bg-card-hover);
+}
+
+.swap-item.selected {
+    border-color: var(--accent-primary);
+    background: rgba(0, 245, 212, 0.1);
+}
+
+.swap-day-label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    width: 60px;
+}
+
+.swap-workout-name {
+    flex: 1;
+    color: var(--text-primary);
 }
 
 .stats-row {
