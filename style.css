@@ -311,15 +311,7 @@ body {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Changed for edit btn */
     gap: 12px;
-}
-
-.workout-title-content {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
 }
 
 .workout-title .title-icon {
@@ -348,88 +340,6 @@ body {
     font-size: 0.55em;
     font-weight: 400;
     margin-top: 2px;
-}
-
-/* Edit Mode Styles */
-.edit-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.2s;
-}
-
-.edit-btn:hover {
-    background: var(--bg-card-hover);
-    color: var(--text-primary);
-}
-
-.edit-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.form-label {
-    font-size: 0.8em;
-    color: var(--text-muted);
-}
-
-.form-input, .form-select {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 10px;
-    border-radius: 8px;
-    font-family: 'Kanit', sans-serif;
-    width: 100%;
-}
-
-.form-input:focus {
-    border-color: var(--accent-primary);
-    outline: none;
-}
-
-.edit-exercise-item {
-    background: var(--bg-secondary);
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    margin-bottom: 10px;
-    position: relative;
-}
-
-.remove-exercise-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 107, 107, 0.2);
-    color: var(--accent-warning);
-    border: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-}
-
-.edit-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-    justify-content: flex-end;
 }
 
 /* Rest Day */
@@ -1023,7 +933,7 @@ iframe {
     background: #000;
 }
 
-/* Stats & Swap Modal */
+/* Stats Modal */
 .stats-modal {
     display: none;
     position: fixed;
@@ -1056,54 +966,8 @@ iframe {
 
 .stats-modal-content h2 {
     text-align: center;
-    margin-bottom: 10px;
-    color: var(--accent-primary);
-}
-
-.modal-desc {
-    text-align: center;
-    color: var(--text-secondary);
     margin-bottom: 20px;
-    font-size: 0.9em;
-}
-
-/* Swap Grid */
-.swap-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.swap-item {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    padding: 15px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.swap-item:hover {
-    background: var(--bg-card-hover);
-}
-
-.swap-item.selected {
-    border-color: var(--accent-primary);
-    background: rgba(0, 245, 212, 0.1);
-}
-
-.swap-day-label {
-    font-weight: 600;
-    color: var(--text-secondary);
-    width: 60px;
-}
-
-.swap-workout-name {
-    flex: 1;
-    color: var(--text-primary);
+    color: var(--accent-primary);
 }
 
 .stats-row {
@@ -1271,5 +1135,227 @@ iframe {
 
     .stats-modal-content {
         padding: 20px;
+    }
+}
+/* ==========================================
+   Edit Schedule Modal Styles
+   ========================================== */
+
+.edit-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.edit-modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-modal-content {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.4s ease;
+}
+
+.edit-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.edit-modal-header h2 {
+    font-size: 1.5em;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.edit-instructions {
+    padding: 20px 30px;
+    background: rgba(123, 97, 255, 0.05);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.edit-instructions p {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+.edit-day-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.edit-day-item {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: grab;
+    transition: all 0.3s ease;
+}
+
+.edit-day-item:active {
+    cursor: grabbing;
+}
+
+.edit-day-item.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.edit-day-item.drag-over {
+    border-color: var(--accent-primary);
+    background: rgba(0, 245, 212, 0.05);
+    transform: translateY(-5px);
+}
+
+.edit-drag-handle {
+    font-size: 1.5em;
+    color: var(--text-muted);
+    cursor: grab;
+    user-select: none;
+}
+
+.edit-drag-handle:active {
+    cursor: grabbing;
+}
+
+.edit-day-info {
+    flex: 1;
+}
+
+.edit-day-name {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.edit-day-type-input {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text-primary);
+    font-size: 0.95em;
+    font-family: 'Kanit', sans-serif;
+    width: 200px;
+    transition: all 0.3s ease;
+}
+
+.edit-day-type-input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(0, 245, 212, 0.1);
+}
+
+.edit-modal-footer {
+    padding: 20px 30px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+/* Action Button - Edit variant */
+.action-btn.edit {
+    background: linear-gradient(135deg, #ff9a3c, #ff6b6b);
+    box-shadow: 0 8px 20px rgba(255, 154, 60, 0.3);
+}
+
+.action-btn.edit:hover {
+    box-shadow: 0 10px 30px rgba(255, 154, 60, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Drag Handle in Day Buttons */
+.drag-handle {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    margin-right: 5px;
+    cursor: grab;
+    user-select: none;
+}
+
+.day-btn.draggable .drag-handle {
+    display: inline-block !important;
+}
+
+.day-btn.draggable {
+    cursor: grab;
+}
+
+.day-btn.draggable:active {
+    cursor: grabbing;
+}
+
+.day-btn.dragging {
+    opacity: 0.4;
+}
+
+.day-btn.drag-over {
+    transform: scale(1.05);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 20px var(--glow-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .edit-modal-content {
+        width: 95%;
+        max-height: 90vh;
+    }
+    
+    .edit-modal-header,
+    .edit-instructions,
+    .edit-modal-footer {
+        padding: 15px 20px;
+    }
+    
+    .edit-day-list {
+        padding: 15px;
+    }
+    
+    .edit-day-item {
+        padding: 15px;
+    }
+    
+    .edit-day-type-input {
+        width: 100%;
+    }
+    
+    .edit-modal-footer {
+        flex-direction: column;
+    }
+    
+    .edit-modal-footer button {
+        width: 100%;
     }
 }
